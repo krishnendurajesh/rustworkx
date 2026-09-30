@@ -40,7 +40,31 @@ graph.add_edges_from([(a, b, 1.5), (a, c, 5.0), (b, c, 2.5)])
 
 # Returns the path A -> B -> C
 rustworkx.dijkstra_shortest_paths(graph, a, c, weight_fn=float)
+
 ```
+
+### Type Annotations
+
+You could use the standard Python typing for specifying  data types for node and edge parameters. The  parameters for `PyGraph` are ordered like `PyGraph[NodeData, EdgeData]`.
+
+```python
+import rustworkx as rx
+
+graph: rx.PyGraph[str, int] = rx.PyGraph()
+node_a = graph.add_node("qubit0")
+node_b = graph.add_node("qubit1")
+graph.add_edge(node_a, node_b, 10)
+```
+
+If you want to use methods that create edges without data (like connecting two nodes with no edge value), such as `rustworkx.PyGraph.add_edges_from_no_data`, you must include `None` in your edge (`_T`) type annotation using `| None`.
+
+```python
+graph: rx.PyGraph[str, int | None] = rx.PyGraph()
+graph.add_nodes_from(["qubit0", "qubit1"])
+graph.add_edges_from_no_data([(0, 1)])
+```
+
+
 
 ## Installing rustworkx
 
